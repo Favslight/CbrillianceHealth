@@ -35,14 +35,6 @@ app.use('/api/admin/auth', require('./routes/adminAuth'));
 app.use('/api/admin', require('./routes/adminRoute'));
 
 
-// ✅ CATCH-ALL ROUTE for undefined routes
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route not found: ${req.method} ${req.originalUrl}`
-  });
-});
-
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
