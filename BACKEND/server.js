@@ -25,6 +25,25 @@ mongoose.connect(MONGOURL)
     .catch((err) => {
         console.error('Error connecting to MongoDB:', err);
     });
+
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Healthcare Base API Running',
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+    timestamp: new Date().toISOString()
+  });
+});
+
+
+// ✅ CATCH-ALL ROUTE for undefined routes
+app.use('*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found',
+    path: req.originalUrl
+  });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
