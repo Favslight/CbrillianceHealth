@@ -8,12 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Import Routes
-app.use('/api/auth', require('./routes/authRoute'));
-app.use('/api/booking', require('./routes/bookingRoute'));
-app.use('/api/admin/auth', require('./routes/adminAuth'));
-app.use('/api/admin', require('./routes/adminRoute'));
-
 const PORT = process.env.PORT || 5000;
 const MONGOURL = process.env.MONGO_URL;
 
@@ -34,13 +28,18 @@ app.get('/', (req, res) => {
   });
 });
 
+// Import Routes
+app.use('/api/auth', require('./routes/authRoute'));
+app.use('/api/booking', require('./routes/bookingRoute'));
+app.use('/api/admin/auth', require('./routes/adminAuth'));
+app.use('/api/admin', require('./routes/adminRoute'));
+
 
 // ✅ CATCH-ALL ROUTE for undefined routes
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Route not found',
-    path: req.originalUrl
+    message: `Route not found: ${req.method} ${req.originalUrl}`
   });
 });
 
